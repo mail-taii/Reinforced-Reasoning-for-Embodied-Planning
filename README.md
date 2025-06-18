@@ -9,20 +9,20 @@
   <a href="https://arxiv.org/abs/2505.22050">
     <img src="https://img.shields.io/badge/arXiv-2505.22050-b31b1b?logo=arXiv&style=flat-square" />
   </a>
-  <a href="https://huggingface.co/your-org/rr-ep">
+  <a href="https://huggingface.co/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning">
     <img src="https://img.shields.io/badge/HuggingFace-Model-yellow?logo=huggingface&style=flat-square" />
   </a>
-  <a href="https://your-project-site.org">
+  <!-- <a href="https://your-project-site.org">
     <img src="https://img.shields.io/badge/Project-Website-blue?style=flat-square" />
-  </a>
+  </a> -->
 </p>
 
 > **Reinforced Reasoning for Embodied Planning**  
-> Under Review, Anonymous Authors
+<!-- > Under Review, Anonymous Authors -->
 
-<!-- > [Di Wu](https://wudi7012.github.io/), Jiaxin Fan*, Junzhe Zang*, Guanbo Wang, Wei Yin, Wenhao Li†, Bo Jin†
+> [Di Wu](https://wudi7012.github.io/), Jiaxin Fan*, Junzhe Zang*, Guanbo Wang, Wei Yin, Wenhao Li†, Bo Jin†
 
->Tongji MAIL-TAII Lab, Tongji University, Tsinghua University, Bank of Communications -->
+>Tongji MAIL-TAII Lab, Tongji University, Tsinghua University, Bank of Communications
 
 
 <p align="center">
@@ -76,7 +76,8 @@ We evaluate on the **Embench** benchmark (EB-ALFRED & EB-Habitat) and find that 
 ## 🗒️ News
 
 * **2025-05-28** : 🚀 We released our initial [arXiv paper](https://arxiv.org/abs/2505.22050) on **Reinforced Reasoning for Embodied Planning**.
-* **2025-06-06** : 🧠 Github Page Released
+* **2025-06-06** : 🧠 Github Page Released.
+* **2025-06-17** : 🛠️ Published the github page and related data.
 <!-- * **2025-06-06** : 📦 We released our [training datasets](https://huggingface.co/your-org/rr-ep-sft-data) for both SFT and RFT stages.
 * **2025-06-07** : 🛠️ We open-sourced all [code and scripts](https://github.com/your-org/rr-ep) for fine-tuning, evaluation, and inference. -->
 
@@ -90,93 +91,86 @@ We release all key components of our two-stage training pipeline, including data
 
 | Component          | Description                                             | Download                                                           |
 | ------------------ | ------------------------------------------------------- | ------------------------------------------------------------------ |
-| 🧩 **SFT Dataset** | \~4.2k Gemini-2.0 distilled multi-step plans            | [🤗 Hugging Face](https://huggingface.co/your-org/rr-ep-sft-data)  |
-| 🧩 **RFT Dataset** | \~43.9k ALFRED-derived episodes with reward annotations | [🤗 Hugging Face](https://huggingface.co/your-org/rr-ep-rft-data)  |
-| 🧠 **SFT Model**   | Qwen2.5-VL-7B fine-tuned with SFT only                  | [🤗 Hugging Face](https://huggingface.co/your-org/rr-ep-sft-model) |
-| 🧠 **RFT Model**   | Qwen2.5-VL-7B further optimized via GRPO                | [🤗 Hugging Face](https://huggingface.co/your-org/rr-ep-rft-model) |
+| 🧩 **SFT Dataset** | \~4.2k Gemini-2.0 distilled multi-step plans            | [🤗 Hugging Face](https://huggingface.co/datasets/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning/tree/main/SFT_training_data)  |
+| 🧩 **RFT Dataset** | \~43.9k ALFRED-derived episodes with reward annotations | [🤗 Hugging Face](https://huggingface.co/datasets/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning/tree/main/RFT_training_data)  |
+| 🧠 **SFT Model**   | Qwen2.5-VL-7B fine-tuned with SFT only                  | [🤗 Hugging Face](https://huggingface.co/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning) |
+| 🧠 **RFT Model**   | Qwen2.5-VL-7B further optimized via GRPO                | Coming Soon!
 
 
 
 ---
-## ⚡️ Usage
+## ⚡️ Simple Usage
 
 <details open>
 <summary><strong>STAGE 1. 🧠 Supervised Fine-tuning (SFT)</strong></summary>
 
 **Step 1. Environment Setup**
+
+You can directly follow the instructions in [Llama_factory](https://github.com/hiyouga/LLaMA-Factory) to complete the SFT stage and find more detailed guidance.
 ```bash
-# ...
+# You can setup conda...
+cd SFT_training
+pip install -e ".[torch,metrics]"
+
 ```
 
-**Step 2. Download Dataset**
+**Step 2. Prepare Dataset**
 
-```bash
-# ...
-```
+Download our SFT Dataset, 
+follow instructions in [llama_factory_Data_Readme.md](SFT%20training/data/README.md)
+ to prepare the dataset (What you mainly need to do is adding our dataset to dataset_info.json)
 
 **Step 3. Launch Training**
 
+You need config the yaml file before launching
 ```bash
-# ...
-```
+# Lora
+llamafactory-cli train examples/train_lora/qwen2vl_lora_sft.yaml
 
-**Step 4. Save & Check Model**
+# merge Lora after training
+llamafactory-cli export examples/merge_lora/qwen2vl_lora_sft.yaml
 
-```bash
-# ...
+# Full Parameters
+llamafactory-cli train examples/train_full/qwen2vl_full_sft.yaml
+
 ```
+After training, you will get the SFT model for the next RL stage.
 
 </details>
 
 <details>
 <summary><strong>STAGE 2. 🎯 Reinforcement Fine-tuning (RFT)</strong></summary>
 
-**Step 1. Prepare Reward Script**
+**Step 1. Environment Setup**
 
 ```bash
-# ...
+# You can setup conda...
+cd RFT training
+pip install -e .[vllm]
+pip install flash_attn --no-build-isolation
 ```
 
-**Step 2. Load SFT Model**
+**Step 2. Prepare Dataset**
 
+Download our RFT Dataset, place the RFT dataset outside the RFT training folder, because the training process of RFT requires packing the folder for communication.
+
+**Step 2. Launch RFT Training**
+
+Modify RFT.sh before launching
 ```bash
-# ...
+cd RFT training
+bash RFT.sh
 ```
+The rule-based reward function is in \RFT training\examples\scripts\reward_func_embench_alfred_nonlinear.py
 
-**Step 3. Launch GRPO Training**
-
-```bash
-# ...
-```
-
-**Step 4. Save & Check Model**
-
-```bash
-# ...
-```
+The RFT code is modified based on [OpenRLHF](https://github.com/OpenRLHF/OpenRLHF) and [MM-Eureka](https://github.com/ModalMinds/MM-EUREKA). You can refer to these two repositories for more information about the underlying codebase.
 
 </details>
 
 <details>
 <summary><strong>📊 Evaluation on Embench</strong></summary>
 
-**Step 1. Prepare Config**
-
-```bash
-# ...
-```
-
-**Step 2. Run Evaluation Script**
-
-```bash
-# ...
-```
-
-**Step 3. View Results**
-
-```bash
-# ...
-```
+To ensure fairness, we did not make any modifications to the benchmark. You only need to follow the setup instructions provided in [Embench](https://github.com/EmbodiedBench/EmbodiedBench), and then directly evaluate using the models we have trained.
 
 </details>
 
