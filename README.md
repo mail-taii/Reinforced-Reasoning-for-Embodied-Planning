@@ -20,7 +20,7 @@
 > **Reinforced Reasoning for Embodied Planning**  
 <!-- > Under Review, Anonymous Authors -->
 
-> [Di Wu](https://wudi7012.github.io/), Jiaxin Fan*, Junzhe Zang*, Guanbo Wang, Wei Yin, Wenhao Li†, Bo Jin†
+> [Di Wu](https://wudi7012.github.io/), [Jiaxin Fan*](https://github.com/mail-taii/Reinforced-Reasoning-for-Embodied-Planning), [Junzhe Zang*](https://github.com/mail-taii/Reinforced-Reasoning-for-Embodied-Planning), [Guanbo Wang](https://github.com/mail-taii/Reinforced-Reasoning-for-Embodied-Planning), [Wei Yin](https://github.com/mail-taii/Reinforced-Reasoning-for-Embodied-Planning), [Wenhao Li†](https://ewanlee.weebly.com/), [Bo Jin†](https://cs.tongji.edu.cn/info/1063/2768.htm)
 
 >Tongji MAIL-TAII Lab, Tongji University, Tsinghua University, Bank of Communications
 
@@ -75,6 +75,7 @@ We evaluate on the **Embench** benchmark (EB-ALFRED & EB-Habitat) and find that 
 
 ## 🗒️ News
 
+* **2025-08-16** : 📦 Update relevant data and **RFT** model
 * **2025-05-28** : 🚀 We released our initial [arXiv paper](https://arxiv.org/abs/2505.22050) on **Reinforced Reasoning for Embodied Planning**.
 * **2025-06-06** : 🧠 Github Page Released.
 * **2025-06-17** : 🛠️ Published the github page and related data.
@@ -94,7 +95,7 @@ We release all key components of our two-stage training pipeline, including data
 | 🧩 **SFT Dataset** | \~4.2k Gemini-2.0 distilled multi-step plans            | [🤗 Hugging Face](https://huggingface.co/datasets/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning/tree/main/SFT_training_data)  |
 | 🧩 **RFT Dataset** | \~43.9k ALFRED-derived episodes with reward annotations | [🤗 Hugging Face](https://huggingface.co/datasets/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning/tree/main/RFT_training_data)  |
 | 🧠 **SFT Model**   | Qwen2.5-VL-7B fine-tuned with SFT only                  | [🤗 Hugging Face](https://huggingface.co/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning) |
-| 🧠 **RFT Model**   | Qwen2.5-VL-7B further optimized via GRPO                | Coming Soon!
+| 🧠 **RFT Model**   | Qwen2.5-VL-7B further optimized via GRPO                | [🤗 Hugging Face](https://huggingface.co/poopoo3882/Reinforced_Reasoning_for_Embodied_Planning)
 
 
 
